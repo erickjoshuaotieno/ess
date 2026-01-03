@@ -876,8 +876,9 @@ export default function AboutPage() {
               <MapPin className="w-4 h-4 text-[#8B0000] flex-shrink-0 mt-0.5" />
               <div>
                 <p className="text-sm font-semibold text-gray-900">Our Location</p>
-                <p className="text-xs text-gray-600">Emmanuel Senior </p>
-                <p className="text-xs text-gray-600">School</p>
+                <p className="text-xs text-gray-600">Emmanuel Senior School</p>
+                <p className="text-xs text-gray-600 italic">(formerly Beatitude Girls)</p>
+
               </div>
             </div>
           </div>
