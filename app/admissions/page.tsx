@@ -168,7 +168,7 @@ const uniformItems = [
   "2 Black Skirts/Trousers",
   "2 Blue Shirts",
   "1 Black with Red Stripe Pullover",
-  "1 Black with Red Stripe Short Sleeved Pullover",
+  "1 Black with Red Stripe Sleeveless Pullover",
   "1 T-shirt with School Name",
   "1 Red Acrylic Bedcover",
   "1 Red Tie",
