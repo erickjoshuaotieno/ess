@@ -86,6 +86,7 @@ export default function ContactPage() {
     'Boarding Facilities',
     'Extracurricular Activities',
     'Spiritual Programs',
+    'Schedule a Visit',
     'Transport Services',
     'General Information'
   ];
@@ -266,7 +267,7 @@ export default function ContactPage() {
               {/* Image */}
               <div className="relative h-48 md:h-56 rounded-2xl overflow-hidden max-w-full">
                 <Image
-                  src="/school-campus.png"
+                  src="/school-campus.jpg"
                   alt="Emmanuel Senior School Campus"
                   fill
                   className="object-cover"
