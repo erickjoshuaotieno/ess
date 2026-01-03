@@ -430,59 +430,51 @@ const Footer = () => {
                 </ul>
               </div>
 
-              {/* Social Media - Animate from right */}
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, x: 20 },
-                  visible: { opacity: 1, x: 0 }
-                }}
-                initial="hidden"
-                animate={controls}
-                transition={{ duration: 0.6, delay: 1.0 }}
-              >
-                <motion.h3
-                  className="text-lg font-semibold mb-4"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: { opacity: 1 }
-                  }}
-                  initial="hidden"
-                  animate={controls}
-                  transition={{ duration: 0.5, delay: 1.1 }}
-                >
-                  Connect With Us
-                </motion.h3>
-                <div className="flex gap-3">
-                  {socialLinks.map((social, index) => {
-                    const Icon = social.icon;
-                    return (
-                      <motion.a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#2a0a0a] to-[#1a0a0a] border border-[#8B0000]/30 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#8B0000]/20 hover:to-[#000000]/20 transition-all duration-300 group"
-                        variants={{
-                          hidden: { opacity: 0, scale: 0 },
-                          visible: { opacity: 1, scale: 1 }
-                        }}
-                        initial="hidden"
-                        animate={controls}
-                        transition={{ duration: 0.4, delay: 1.2 + index * 0.1 }}
-                        whileHover={{ y: -4, scale: 1.1, rotate: 5 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <motion.div
-                          whileHover={{ rotate: 360 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <Icon className="w-5 h-5 text-gray-400 group-hover:text-[#FF9999] transition-colors" />
-                        </motion.div>
-                      </motion.a>
-                    );
-                  })}
-                </div>
-              </motion.div>
+{/* Social Media - Animate from right */}
+<motion.div
+  variants={{
+    hidden: { opacity: 0, x: 20 },
+    visible: { opacity: 1, x: 0 }
+  }}
+  initial="hidden"
+  animate={controls}
+  transition={{ duration: 0.6, delay: 1.0 }}
+>
+  <motion.h3
+    className="text-lg font-semibold mb-4"
+    variants={{
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 }
+    }}
+    initial="hidden"
+    animate={controls}
+    transition={{ duration: 0.5, delay: 1.1 }}
+  >
+    Connect With Us
+  </motion.h3>
+  <div className="flex gap-3">
+    {socialLinks.map((social, index) => {
+      const Icon = social.icon;
+      return (
+        <motion.button
+          key={social.label}
+          type="button"
+          onClick={(e) => e.preventDefault()}
+          className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#2a0a0a] to-[#1a0a0a] border border-[#8B0000]/30 flex items-center justify-center cursor-default"
+          variants={{
+            hidden: { opacity: 0, scale: 0 },
+            visible: { opacity: 1, scale: 1 }
+          }}
+          initial="hidden"
+          animate={controls}
+          transition={{ duration: 0.4, delay: 1.2 + index * 0.1 }}
+        >
+          <Icon className="w-5 h-5 text-gray-400" />
+        </motion.button>
+      );
+    })}
+  </div>
+</motion.div>
             </motion.div>
           </div>
 

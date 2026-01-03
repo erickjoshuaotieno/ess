@@ -615,13 +615,24 @@ export default function AboutPage() {
                         );
                       })}
                     </div>
-                    {category.category === "Clubs & Societies" && (
-                      <div className="mt-16 flex justify-center items-center">
-                        <div className="w-90 h-32">
-                          <Lottie animationData={animationData} loop={true} />
-                        </div>
+                   {category.category === "Clubs & Societies" && (
+                    <div className="mt-14 flex justify-center items-center">
+                      {/* Desktop & Tablet (unchanged) */}
+                      <div className="hidden sm:block w-90 h-32">
+                        <Lottie animationData={animationData} loop />
                       </div>
-                    )}
+
+                      {/* Mobile only (taller to prevent clipping) */}
+                      <div className="block sm:hidden w-90 h-44">
+                        <Lottie
+                          animationData={animationData}
+                          loop
+                          style={{ width: '100%', height: '100%' }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   </CardContent>
                 </Card>
               </motion.div>
@@ -796,65 +807,85 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-[#8B0000]/5 via-transparent to-[#000000]/5" />
+{/* CTA Section */}
+<section className="relative py-20 overflow-hidden">
+  <div className="absolute inset-0 bg-linear-to-br from-[#8B0000]/5 via-transparent to-[#000000]/5" />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: false }}
-            className="bg-linear-to-br from-white to-[#FFF5F5] rounded-3xl shadow-2xl overflow-hidden border border-[#8B0000]/10"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-              <div className="p-12 lg:p-16">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-                  <span className={`bg-linear-to-r ${maroonGradient} bg-clip-text text-transparent`}>
-                    Ready to Join Our Community?
-                  </span>
-                </h2>
-                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                  Discover how Emmanuel Senior School can help your child achieve academic excellence, personal growth, and spiritual development.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button
-                    asChild
-                    className={`${maroonGradient} text-white px-8 py-6 text-lg hover:shadow-xl transition-all duration-300`}
-                  >
-                    <Link href="/admissions#application-form">
-                      <GraduationCap className="w-5 h-5 mr-2" />
-                      Apply for Admission
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="px-8 py-6 text-lg border-2 border-[#8B0000] text-[#8B0000] hover:bg-[#8B0000]/10"
-                  >
-                    <Link href="/contact">
-                      <Phone className="w-5 h-5 mr-2" />
-                      Schedule a Visit
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-              <div className="relative min-h-[300px] lg:min-h-0 bg-linear-to-br from-[#8B0000]/10 to-[#000000]/10">
-                <div className="absolute inset-0 flex items-center justify-center p-8">
-                  <div className="text-center">
-                    <MapPin className="w-16 h-16 text-[#8B0000]/30 mx-auto mb-4" />
-                    <div className="space-y-2">
-                      <p className="text-lg font-semibold text-gray-900">Maragua, Kenya</p>
-                      <p className="text-gray-600">Visit our school today</p>
-                    </div>
-                  </div>
-                </div>
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: false }}
+      className="bg-linear-to-br from-white to-[#FFF5F5] rounded-3xl shadow-2xl overflow-hidden border border-[#8B0000]/10"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+        <div className="p-12 lg:p-16">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+            <span className={`bg-linear-to-r ${maroonGradient} bg-clip-text text-transparent`}>
+              Ready to Join Our Community?
+            </span>
+          </h2>
+          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+            Discover how Emmanuel Senior School can help your child achieve academic excellence, personal growth, and spiritual development.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button
+              asChild
+              className={`${maroonGradient} text-white px-8 py-6 text-lg hover:shadow-xl transition-all duration-300`}
+            >
+              <Link href="/admissions#application-form">
+                <GraduationCap className="w-5 h-5 mr-2" />
+                Apply for Admission
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="px-8 py-6 text-lg border-2 border-[#8B0000] text-[#8B0000] hover:bg-[#8B0000]/10"
+            >
+              <Link href="/contact">
+                <Phone className="w-5 h-5 mr-2" />
+                Schedule a Visit
+              </Link>
+            </Button>
+          </div>
+        </div>
+
+        {/* Google Maps Embed with your preferred design */}
+        <div className="relative min-h-[300px] lg:min-h-0">
+          <div className="absolute inset-0">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.199749241805!2d37.1596715757216!3d-0.8259480999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1828a50c661c54f1%3A0xeb3eb9cbb710f5a0!2sBeatitudes%20Girls%20Secondary%20School!5e0!3m2!1sen!2ske!4v1736207200000!5m2!1sen!2ske"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Emmanuel Senior School Location"
+              className="absolute inset-0"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+          </div>
+
+          {/* Map Overlay Info */}
+          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg w-[260px] max-w-[210px]">
+
+            <div className="flex items-start gap-2">
+              <MapPin className="w-4 h-4 text-[#8B0000] flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-gray-900">Our Location</p>
+                <p className="text-xs text-gray-600">Emmanuel Senior </p>
+                <p className="text-xs text-gray-600">School</p>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </div>
+    </motion.div>
+  </div>
+</section>
 
 
     </main>
