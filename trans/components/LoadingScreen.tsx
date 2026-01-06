@@ -118,8 +118,8 @@ export default function LoadingScreen({ children }: { children: React.ReactNode 
               }}
               className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-24 z-10"
             >
-              <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#8B0000] via-[#FF9999] to-[#8B0000] bg-clip-text text-transparent">
-                Loading...
+              <div className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#8B0000] via-[#FF9999] to-[#8B0000] bg-clip-text text-transparent text-center">
+                Emmanuel Senior School
               </div>
             </motion.div>
           </motion.div>

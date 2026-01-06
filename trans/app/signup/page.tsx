@@ -146,7 +146,7 @@ export default function SignupPage() {
                 transition={{ delay: 0.3 }}
               >
                 <label className="block text-slate-700 font-medium mb-2 font-inter text-sm">
-                  Student Name (Optional)
+                  Student Admission Number
                 </label>
                 <div className="relative">
                   <GraduationCap className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 transform -translate-y-1/2" />

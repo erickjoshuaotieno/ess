@@ -1,7 +1,7 @@
 // components/Footer.tsx
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion, useAnimation, useInView } from 'framer-motion';
 import {
   School,
@@ -25,6 +25,18 @@ const Footer = () => {
   const footerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(footerRef, { amount: 0.1 });
   const controls = useAnimation();
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      setShowBackToTop(scrollTop > scrollHeight * 0.05);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (isInView) {
@@ -37,32 +49,32 @@ const Footer = () => {
 
   const footerLinks = {
     academics: [
-      { label: 'Grade 10 Curriculum', href: '/academics/curriculum' },
-      { label: 'STEM Programs', href: '/academics/stem' },
-      { label: 'Arts & Sports', href: '/academics/arts' },
-      { label: 'Subjects Offered', href: '/academics/subjects' },
-      { label: 'Development Clubs', href: '/academics/clubs' },
+      { label: 'Grade 10 Curriculum', href: '#' },
+      { label: 'STEM Programs', href: '#' },
+      { label: 'Arts & Sports', href: '#' },
+      { label: 'Subjects Offered', href: '#' },
+      { label: 'Development Clubs', href: '#' },
     ],
     admissions: [
-      { label: 'Requirements', href: '/admissions/requirements' },
-      { label: 'School Fees', href: '/admissions/fees' },
-      { label: 'Uniform', href: '/admissions/uniform' },
-      { label: 'Apply Online', href: '/admissions/apply' },
-      { label: 'Virtual Tour', href: '/admissions/tour' },
+      { label: 'Requirements', href: '#' },
+      { label: 'School Fees', href: '#' },
+      { label: 'Uniform', href: '#' },
+      { label: 'Apply Online', href: '#' },
+      { label: 'Virtual Tour', href: '#' },
     ],
     about: [
-      { label: 'Our Vision', href: '/about/vision' },
-      { label: 'Our Mission', href: '/about/mission' },
-      { label: 'Why Choose Us', href: '/about/why-us' },
-      { label: 'Leadership', href: '/about/leadership' },
-      { label: 'School History', href: '/about/history' },
+      { label: 'Our Vision', href: '#' },
+      { label: 'Our Mission', href: '#' },
+      { label: 'Why Choose Us', href: '#' },
+      { label: 'Leadership', href: '#' },
+      { label: 'School History', href: '#' },
     ],
     contact: [
       { label: 'Admissions Office', href: 'tel:+254722489809' },
-      { label: 'Email Us', href: 'mailto:emmanuelseniorschool@gmail.com' },
-      { label: 'Visit Campus', href: '/contact' },
+      { label: 'Email Us', href: 'mailto:info@emmanuelseniorschool.co.ke' },
+      { label: 'Visit Campus', href: '#' },
       { label: 'Emergency Contact', href: 'tel:+254722489809' },
-      { label: 'Parent Portal', href: '/parent-portal' },
+      { label: 'Parent Portal', href: '#' },
     ]
   };
 
@@ -207,7 +219,7 @@ const Footer = () => {
                 {[
                   { icon: MapPin, text: 'Maragua, Kenya', subtext: '3 Kms off Murang\'a Road' },
                   { icon: Phone, text: '0722 489 809', subtext: null, isLink: true },
-                  { icon: Mail, text: 'emmanuelseniorschool@gmail.com', subtext: null, isLink: true },
+                  { icon: Mail, text: 'info@emmanuelseniorschool.co.ke', subtext: null, isLink: true },
                   { icon: Clock, text: 'Mon - Fri: 8:00 AM - 5:00 PM', subtext: null }
                 ].map((item, index) => (
                   <motion.div
@@ -225,7 +237,7 @@ const Footer = () => {
                     <div>
                       {item.isLink ? (
                         <a
-                          href={item.icon === Phone ? 'tel:+254722489809' : 'mailto:emmanuelseniorschool@gmail.com'}
+                          href={item.icon === Phone ? 'tel:+254722489809' : 'mailto:info@emmanuelseniorschool.co.ke'}
                           className="hover:text-[#FF9999] transition-colors block"
                         >
                           {item.text}
@@ -418,59 +430,51 @@ const Footer = () => {
                 </ul>
               </div>
 
-              {/* Social Media - Animate from right */}
-              <motion.div
-                variants={{
-                  hidden: { opacity: 0, x: 20 },
-                  visible: { opacity: 1, x: 0 }
-                }}
-                initial="hidden"
-                animate={controls}
-                transition={{ duration: 0.6, delay: 1.0 }}
-              >
-                <motion.h3
-                  className="text-lg font-semibold mb-4"
-                  variants={{
-                    hidden: { opacity: 0 },
-                    visible: { opacity: 1 }
-                  }}
-                  initial="hidden"
-                  animate={controls}
-                  transition={{ duration: 0.5, delay: 1.1 }}
-                >
-                  Connect With Us
-                </motion.h3>
-                <div className="flex gap-3">
-                  {socialLinks.map((social, index) => {
-                    const Icon = social.icon;
-                    return (
-                      <motion.a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#2a0a0a] to-[#1a0a0a] border border-[#8B0000]/30 flex items-center justify-center hover:bg-gradient-to-br hover:from-[#8B0000]/20 hover:to-[#000000]/20 transition-all duration-300 group"
-                        variants={{
-                          hidden: { opacity: 0, scale: 0 },
-                          visible: { opacity: 1, scale: 1 }
-                        }}
-                        initial="hidden"
-                        animate={controls}
-                        transition={{ duration: 0.4, delay: 1.2 + index * 0.1 }}
-                        whileHover={{ y: -4, scale: 1.1, rotate: 5 }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        <motion.div
-                          whileHover={{ rotate: 360 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <Icon className="w-5 h-5 text-gray-400 group-hover:text-[#FF9999] transition-colors" />
-                        </motion.div>
-                      </motion.a>
-                    );
-                  })}
-                </div>
-              </motion.div>
+{/* Social Media - Animate from right */}
+<motion.div
+  variants={{
+    hidden: { opacity: 0, x: 20 },
+    visible: { opacity: 1, x: 0 }
+  }}
+  initial="hidden"
+  animate={controls}
+  transition={{ duration: 0.6, delay: 1.0 }}
+>
+  <motion.h3
+    className="text-lg font-semibold mb-4"
+    variants={{
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 }
+    }}
+    initial="hidden"
+    animate={controls}
+    transition={{ duration: 0.5, delay: 1.1 }}
+  >
+    Connect With Us
+  </motion.h3>
+  <div className="flex gap-3">
+    {socialLinks.map((social, index) => {
+      const Icon = social.icon;
+      return (
+        <motion.button
+          key={social.label}
+          type="button"
+          onClick={(e) => e.preventDefault()}
+          className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#2a0a0a] to-[#1a0a0a] border border-[#8B0000]/30 flex items-center justify-center cursor-default"
+          variants={{
+            hidden: { opacity: 0, scale: 0 },
+            visible: { opacity: 1, scale: 1 }
+          }}
+          initial="hidden"
+          animate={controls}
+          transition={{ duration: 0.4, delay: 1.2 + index * 0.1 }}
+        >
+          <Icon className="w-5 h-5 text-gray-400" />
+        </motion.button>
+      );
+    })}
+  </div>
+</motion.div>
             </motion.div>
           </div>
 
@@ -527,10 +531,10 @@ const Footer = () => {
             {/* Policy Links with Stagger */}
             <div className="flex flex-wrap gap-6 justify-center">
               {[
-                { label: 'Privacy Policy', href: '/privacy-policy' },
-                { label: 'Terms of Service', href: '/terms-of-service' },
-                { label: 'Code of Conduct', href: '/code-of-conduct' },
-                { label: 'Careers', href: '/careers' }
+                { label: 'Privacy Policy', href: '#' },
+                { label: 'Terms of Service', href: '#' },
+                { label: 'Code of Conduct', href: '#' },
+                { label: 'Careers', href: '#' }
               ].map((link, index) => (
                 <motion.div
                   key={link.label}
@@ -586,18 +590,21 @@ const Footer = () => {
       <motion.button
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         className="fixed bottom-6 right-6 w-12 h-12 bg-gradient-to-br from-[#8B0000] to-[#000000] rounded-full shadow-2xl flex items-center justify-center z-40 group"
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 20, scale: 0 }}
         animate={{
-          opacity: 1,
-
-          y: [0, -8, 0],
+          opacity: showBackToTop ? 1 : 0,
+          scale: showBackToTop ? 1 : 0,
+          y: showBackToTop ? [0, -8, 0] : 20,
+          pointerEvents: showBackToTop ? 'auto' : 'none',
         }}
         transition={{
-          y: {
+          opacity: { duration: 0.3 },
+          scale: { duration: 0.3 },
+          y: showBackToTop ? {
             duration: 2,
             repeat: Infinity,
             ease: "easeInOut",
-          }
+          } : { duration: 0.3 }
         }}
         whileHover={{ scale: 1.1, y: -2 }}
         whileTap={{ scale: 0.95 }}

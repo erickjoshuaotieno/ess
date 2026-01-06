@@ -86,6 +86,7 @@ export default function ContactPage() {
     'Boarding Facilities',
     'Extracurricular Activities',
     'Spiritual Programs',
+    'Schedule a Visit',
     'Transport Services',
     'General Information'
   ];
@@ -190,7 +191,7 @@ export default function ContactPage() {
                   <Phone className="w-6 h-6 text-[#8B0000]" />
                 </div>
                 <div>
-                  <p className="text-gray-600 text-sm">Phone Number</p>
+                  <p className="text-gray-600 text-sm">Phone Numbers</p>
                   <p className="text-gray-900 font-semibold">0722 489 809</p>
                   <p className="text-gray-900 font-semibold">0723 503 918</p>
                   <p className="text-gray-900 font-semibold">0799 852 688</p>
@@ -205,7 +206,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-gray-600 text-sm">Email Address</p>
-                  <p className="text-gray-900 font-semibold">cdmemmanuelseniorschool@gmail.com</p>
+                  <p className="text-gray-900 font-semibold">info@emmanuelseniorschool.co.ke</p>
                 </div>
               </div>
 
@@ -223,7 +224,7 @@ export default function ContactPage() {
 
         {/* Lottie Animation - Right Side */}
           <div className="hidden md:flex items-center justify-center h-full overflow-hidden">
-            <div className="w-full max-w-[260px] md:max-w-[320px] h-56 md:h-64 overflow-hidden ml-14">
+            <div className="w-full max-w-[260px] md:max-w-[320px] h-56 md:h-64 overflow-hidden ml-9">
               <Lottie
                 animationData={contactAnimation}
                 loop
@@ -266,7 +267,7 @@ export default function ContactPage() {
               {/* Image */}
               <div className="relative h-48 md:h-56 rounded-2xl overflow-hidden max-w-full">
                 <Image
-                  src="/school-campus.png"
+                  src="/school-campus.jpg"
                   alt="Emmanuel Senior School Campus"
                   fill
                   className="object-cover"

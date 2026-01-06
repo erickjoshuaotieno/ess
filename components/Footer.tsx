@@ -71,7 +71,7 @@ const Footer = () => {
     ],
     contact: [
       { label: 'Admissions Office', href: 'tel:+254722489809' },
-      { label: 'Email Us', href: 'mailto:emmanuelseniorschool@gmail.com' },
+      { label: 'Email Us', href: 'mailto:info@emmanuelseniorschool.co.ke' },
       { label: 'Visit Campus', href: '#' },
       { label: 'Emergency Contact', href: 'tel:+254722489809' },
       { label: 'Parent Portal', href: '#' },
@@ -219,7 +219,7 @@ const Footer = () => {
                 {[
                   { icon: MapPin, text: 'Maragua, Kenya', subtext: '3 Kms off Murang\'a Road' },
                   { icon: Phone, text: '0722 489 809', subtext: null, isLink: true },
-                  { icon: Mail, text: 'emmanuelseniorschool@gmail.com', subtext: null, isLink: true },
+                  { icon: Mail, text: 'info@emmanuelseniorschool.co.ke', subtext: null, isLink: true },
                   { icon: Clock, text: 'Mon - Fri: 8:00 AM - 5:00 PM', subtext: null }
                 ].map((item, index) => (
                   <motion.div
@@ -237,7 +237,7 @@ const Footer = () => {
                     <div>
                       {item.isLink ? (
                         <a
-                          href={item.icon === Phone ? 'tel:+254722489809' : 'mailto:emmanuelseniorschool@gmail.com'}
+                          href={item.icon === Phone ? 'tel:+254722489809' : 'mailto:info@emmanuelseniorschool.co.ke'}
                           className="hover:text-[#FF9999] transition-colors block"
                         >
                           {item.text}

@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { ChevronDownCircle } from "lucide-react";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Mail,
   Phone,
@@ -35,13 +35,39 @@ export default function ContactPage() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  const [countdown, setCountdown] = useState<number | null>(null);
+const [countdownActive, setCountdownActive] = useState(false);
+
+// Add this useEffect for the countdown timer
+useEffect(() => {
+  let interval: NodeJS.Timeout;
+
+  if (countdownActive && countdown !== null) {
+    if (countdown > 0) {
+      interval = setInterval(() => {
+        setCountdown(prev => prev !== null ? prev - 1 : null);
+      }, 1000);
+    } else {
+      setCountdownActive(false);
+      setCountdown(null);
+    }
+  }
+
+  return () => {
+    if (interval) clearInterval(interval);
+  };
+}, [countdownActive, countdown]);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+     // Start the 10-second countdown
+    setCountdown(10);
+    setCountdownActive(true);
     setIsSubmitting(true);
     setSubmitError(null);
 
     try {
-      const response = await fetch('http://localhost/api/contacts', {
+      const response = await fetch('/api/contacts', {  // <- relative path works in production
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,21 +82,30 @@ export default function ContactPage() {
         }),
       });
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (response.ok && data.success) {
         setIsSubmitted(true);
-        // Reset form for next submission
         setFormData({ name: '', email: '', studentName: '', phone: '', inquiryType: '', message: '' });
+        setCountdownActive(false);  // Add this
+        setCountdown(null);         // Add this
       } else {
-        const errorData = await response.json();
-        setSubmitError(errorData.error || 'An unexpected error occurred. Please try again.');
+        setSubmitError(data.error || 'An unexpected error occurred. Please try again.');
+        setCountdownActive(false);  // Add this
+        setCountdown(null);         // Add this
       }
     } catch (error) {
       console.error('Submission Error:', error);
       setSubmitError('Could not connect to the server. Please check your connection and try again.');
+      setCountdownActive(false);  // Add this
+      setCountdown(null);         // Add this
     } finally {
       setIsSubmitting(false);
     }
   };
+
+
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData(prev => ({
@@ -170,7 +205,7 @@ export default function ContactPage() {
               with Our Admissions Team
             </h2>
             <p className="text-gray-700 text-lg">
-              Reach out to our dedicated admissions team who are ready to guide you through the enrollment process and answer all your questions about Emmanuel Senior School.
+              Reach out to our dedicated admissions and support team who are ready to guide you through the enrollment process and answer all your questions about Emmanuel Senior School.
             </p>
           </motion.div>
 
@@ -191,7 +226,7 @@ export default function ContactPage() {
                   <Phone className="w-6 h-6 text-[#8B0000]" />
                 </div>
                 <div>
-                  <p className="text-gray-600 text-sm">Phone Number</p>
+                  <p className="text-gray-600 text-sm">Phone Numbers</p>
                   <p className="text-gray-900 font-semibold">0722 489 809</p>
                   <p className="text-gray-900 font-semibold">0723 503 918</p>
                   <p className="text-gray-900 font-semibold">0799 852 688</p>
@@ -206,7 +241,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <p className="text-gray-600 text-sm">Email Address</p>
-                  <p className="text-gray-900 font-semibold">cdmemmanuelseniorschool@gmail.com</p>
+                  <p className="text-gray-900 font-semibold">info@emmanuelseniorschool.co.ke</p>
                 </div>
               </div>
 
@@ -224,7 +259,7 @@ export default function ContactPage() {
 
         {/* Lottie Animation - Right Side */}
           <div className="hidden md:flex items-center justify-center h-full overflow-hidden">
-            <div className="w-full max-w-[260px] md:max-w-[320px] h-56 md:h-64 overflow-hidden ml-14">
+            <div className="w-full max-w-[260px] md:max-w-[320px] h-56 md:h-64 overflow-hidden ml-9">
               <Lottie
                 animationData={contactAnimation}
                 loop
@@ -403,14 +438,146 @@ export default function ContactPage() {
                 </>
               )}
             </motion.button>
+
+{/* Countdown Timer - Compact Two Column Layout */}
+{countdownActive && (
+  <motion.div
+    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+    className="mt-6 backdrop-blur-lg bg-gradient-to-r from-[#FFE5E5]/60 to-[#FFF2F2]/40 border border-[#8B0000]/20 rounded-2xl p-4 shadow-lg shadow-[#8B0000]/5"
+  >
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+      {/* Left Column - Timer Header */}
+      <div className="text-left space-y-2">
+        <div className="flex items-center space-x-3">
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="w-10 h-10 rounded-full bg-gradient-to-r from-[#8B0000]/10 to-[#6A0000]/10 border border-[#8B0000]/30 flex items-center justify-center flex-shrink-0"
+          >
+            <Send className="w-4 h-4 text-[#8B0000]" />
+          </motion.div>
+          <div>
+            <p className="text-gray-900 font-medium text-sm">Processing Request</p>
+            <p className="text-gray-600 text-xs">
+              Secure submission in progress
+            </p>
+          </div>
+        </div>
+
+        {/* Mini progress bar for left column */}
+        <div className="pt-2">
+          <div className="flex justify-between text-xs text-gray-600 mb-1">
+            <span>Time remaining</span>
+            <span className="font-semibold text-[#8B0000]">{countdown}s</span>
+          </div>
+          <div className="h-1.5 bg-gray-200/50 rounded-full overflow-hidden">
+            <motion.div
+              className="h-full bg-gradient-to-r from-[#8B0000] to-[#6A0000]"
+              initial={{ width: "0%" }}
+              animate={{ width: `${((10 - (countdown || 0)) / 10) * 100}%` }}
+              transition={{ duration: 1 }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Right Column - Timer Visual */}
+      <div className="flex flex-col items-center justify-center space-y-3">
+        <div className="relative">
+          {/* Compact outer ring */}
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#FFF7F7] to-[#FFE5E5] border border-[#8B0000]/20 shadow-md flex items-center justify-center">
+            {/* Progress ring */}
+            <svg className="absolute inset-0 w-20 h-20 -rotate-90">
+              <circle
+                cx="40"
+                cy="40"
+                r="36"
+                stroke="url(#gradient-compact)"
+                strokeWidth="3"
+                fill="transparent"
+                strokeDasharray="226.08"
+                strokeDashoffset={226.08 * (1 - (countdown || 0) / 10)}
+                className="transition-all duration-1000 ease-out"
+              />
+              <defs>
+                <linearGradient id="gradient-compact" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#8B0000" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="#6A0000" stopOpacity="0.8" />
+                </linearGradient>
+              </defs>
+            </svg>
+
+            {/* Countdown number */}
+            <motion.div
+              key={countdown}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="text-2xl font-bold bg-gradient-to-r from-[#8B0000] to-[#6A0000] bg-clip-text text-transparent"
+            >
+              {countdown}
+            </motion.div>
+          </div>
+
+          {/* Small pulsing dot */}
+          <motion.div
+            animate={{ scale: [1, 1.3, 1] }}
+            transition={{ duration: 1, repeat: Infinity }}
+            className="absolute top-0 right-0 w-3 h-3 bg-gradient-to-r from-[#8B0000] to-[#6A0000] rounded-full border border-white shadow-sm"
+          />
+        </div>
+
+        {/* Compact status indicator */}
+        <div className="flex items-center space-x-2">
+          {[...Array(4)].map((_, i) => (
+            <motion.div
+              key={i}
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 1, delay: i * 0.15, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#8B0000]/50 to-[#6A0000]/50"
+            />
+          ))}
+          <span className="text-xs text-gray-600">Submitting...</span>
+        </div>
+      </div>
+    </div>
+  </motion.div>
+)}
+
+{/* Error Display - Only show when there's an error AND countdown is not active */}
+{submitError && !countdownActive && (
+  <motion.div
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    exit={{ opacity: 0, y: 10 }}
+    className="mt-4 p-4 rounded-2xl border border-red-200/80 bg-gradient-to-r from-red-50/90 to-red-100/50 backdrop-blur-sm shadow-lg shadow-red-200/20"
+  >
+    <div className="flex items-start space-x-3">
+      <div className="flex-shrink-0">
+        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500 to-red-700 flex items-center justify-center">
+          <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
+        </div>
+      </div>
+      <div className="flex-1">
+        <h4 className="text-red-900 font-semibold mb-1">Submission Error</h4>
+        <p className="text-red-800 text-sm">{submitError}</p>
+        {submitError.includes("Too many submissions") && (
+          <div className="mt-2 pt-2 border-t border-red-200/50">
+            <p className="text-red-700 text-xs">
+              <span className="font-medium">Tip:</span> Please wait a few minutes before trying again.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+  </motion.div>
+)}
           </form>
 
-          {submitError && (
-            <motion.div
-              initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="mt-4 text-center text-red-600 font-medium bg-red-50 p-3 rounded-lg border border-red-200"
-            >{submitError}</motion.div>
-          )}
+
         </motion.div>
       </div>
       </div>

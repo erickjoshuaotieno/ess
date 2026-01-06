@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import {
   BookOpen,
@@ -36,7 +36,9 @@ import {
   TargetIcon,
   Users2,
   FlaskConical,
-  Computer
+  Computer,
+  Quote,
+  Info
 } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -136,7 +138,7 @@ const facilities = [
   {
     image: "/facilities/transport.png",
     title: "Transport Services",
-    description: "Safe & reliable transportation for day students with designated routes",
+    description: "Safe & reliable transportation for authorized school trips and off-school actives",
     features: ["GPS tracked buses", "Certified drivers", "Regular maintenance"]
   },
   {
@@ -158,7 +160,7 @@ const facilities = [
     features: ["E-books access", "Quiet study zones", "Research databases"]
   },
   {
-    image: "/facilities/counseling.png",
+    image: "/facilities/counseling.jpg",
     title: "Counselling Services",
     description: "Professional guidance and psychological support",
     features: ["Career counseling", "Academic support", "Personal development"]
@@ -173,24 +175,55 @@ const facilities = [
 
 const schoolLeadership = [
   {
+    name: "Bishop",
+    role: "Rev. James Wainaina",
+    description: "\"We nurture children to become what God intends, supporting their academia in a Christian way.\"",
+    image: "/bishop.png"
+  },
+  {
     name: "School Director",
-    role: "Management & Oversight",
-    description: "Provides strategic leadership and ensures educational excellence",
-    image: "/leadership/director.jpg"
+    role: "Father Martin",
+    description: "\"We provide strategic leadership that fosters disciplined learning, strong values, and academic growth rooted in faith.\""
   },
   {
-    name: "Principal",
-    role: "Academic Leadership",
-    description: "Directs academic programs and student welfare initiatives",
-    image: "/leadership/principal.jpg"
+    name: "Principal SSS",
+    role: "Madam Minslet",
+    description: "\"Our focus is academic excellence, character development, and preparing students to become responsible, confident lifelong learners.\""
   },
   {
-    name: "Teaching Staff",
-    role: "Certified Educators",
-    description: "Dedicated professionals with subject matter expertise",
-    image: "/leadership/staff.jpg"
+    name: "Principal JSS",
+    role: "Sir James",
+    description: "\"We guide students through a supportive learning environment that builds curiosity, discipline, and a strong foundation for future success.\""
+  },
+  {
+    name: "BOM Chair",
+    role: "Dr. Ruth Wambui",
+    description: "\"Our duty is to guide students to their destiny, moulding character and spirituality through personalized education.\""
   }
 ];
+
+
+const LeaderAvatar = ({ name, image }: { name: string; image?: string }) => {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <>
+      {image && !imgError ? (
+        <Image
+          src={image}
+          alt={name}
+          fill
+          className="object-cover"
+          onError={() => setImgError(true)}
+        />
+      ) : (
+        <div className="w-full h-full bg-linear-to-br from-[#8B0000]/20 to-[#000000]/20 flex items-center justify-center">
+          <GraduationCap className="w-16 h-16 text-[#8B0000]/40" />
+        </div>
+      )}
+    </>
+  );
+};
 
 /* ----------------------------
    Main About Page Component
@@ -199,9 +232,10 @@ export default function AboutPage() {
   const maroonGradient = "bg-gradient-to-r from-[#8B0000] via-[#6A0000] to-[#000000]";
   const maroonLight = "from-[#8B0000] to-[#A50000]";
   const maroonDark = "from-[#6A0000] to-[#000000]";
+  const leaderImageSize = "w-38 h-38"; // Control the leadership image size here
 
   const heroRef = useRef(null);
-  const heroInView = useInView(heroRef, { once: true, amount: 0.3 });
+  const heroInView = useInView(heroRef, { once: false, amount: 0.3 });
 
   return (
     <main className="min-h-screen bg-linear-to-b from-white via-[#FFF7F7] to-white">
@@ -324,7 +358,7 @@ export default function AboutPage() {
             <motion.div
               initial={{ opacity: 0, x: -60 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.8 }}
               className="relative group"
             >
@@ -356,9 +390,23 @@ export default function AboutPage() {
                   </div>
 
                   <div className="mt-8 pt-8 border-t border-gray-100">
-                    <div className="flex items-center gap-3">
-                      <Sparkles className="w-5 h-5 text-[#8B0000]" />
-                      <span className="text-sm font-medium text-gray-700">Christ-centered Excellence</span>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="flex items-center gap-3">
+                        <Sparkles className="w-5 h-5 text-[#8B0000]" />
+                        <span className="text-sm font-medium text-gray-700">Christ-centered Excellence</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Shield className="w-5 h-5 text-[#8B0000]" />
+                        <span className="text-sm font-medium text-gray-700">Moral Integrity</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <Brain className="w-5 h-5 text-[#8B0000]" />
+                        <span className="text-sm font-medium text-gray-700">Holistic Development</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <HeartHandshake className="w-5 h-5 text-[#8B0000]" />
+                        <span className="text-sm font-medium text-gray-700">Service to Society</span>
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -369,7 +417,7 @@ export default function AboutPage() {
             <motion.div
               initial={{ opacity: 0, x: 60 }}
               whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
+              viewport={{ once: false, margin: "-100px" }}
               transition={{ duration: 0.8, delay: 0.2 }}
               className="relative group"
             >
@@ -433,7 +481,7 @@ export default function AboutPage() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             className="text-center mb-16"
           >
             <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#8B0000] mb-4 px-4 py-2 rounded-full bg-[#FFE5E5]/50">
@@ -454,7 +502,7 @@ export default function AboutPage() {
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: false, amount: 0.1 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
           >
             {subjects.map((subject) => {
@@ -497,7 +545,7 @@ export default function AboutPage() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             className="text-center mb-16"
           >
             <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#8B0000] mb-4 px-4 py-2 rounded-full bg-[#FFE5E5]/50">
@@ -520,7 +568,7 @@ export default function AboutPage() {
                 key={category.category}
                 initial={{ opacity: 0, y: 60 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: false }}
                 transition={{ delay: categoryIndex * 0.2 }}
                 className="relative"
               >
@@ -551,7 +599,7 @@ export default function AboutPage() {
                             key={item.name}
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: false }}
                             transition={{ delay: index * 0.1 }}
                             className="flex items-center gap-4 p-4 rounded-lg hover:bg-gray-50 transition-colors duration-200"
                           >
@@ -567,13 +615,24 @@ export default function AboutPage() {
                         );
                       })}
                     </div>
-                    {category.category === "Clubs & Societies" && (
-                      <div className="mt-16 flex justify-center items-center">
-                        <div className="w-90 h-32">
-                          <Lottie animationData={animationData} loop={true} />
-                        </div>
+                   {category.category === "Clubs & Societies" && (
+                    <div className="mt-14 flex justify-center items-center">
+                      {/* Desktop & Tablet (unchanged) */}
+                      <div className="hidden sm:block w-90 h-32">
+                        <Lottie animationData={animationData} loop />
                       </div>
-                    )}
+
+                      {/* Mobile only (taller to prevent clipping) */}
+                      <div className="block sm:hidden w-90 h-44">
+                        <Lottie
+                          animationData={animationData}
+                          loop
+                          style={{ width: '100%', height: '100%' }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   </CardContent>
                 </Card>
               </motion.div>
@@ -588,7 +647,7 @@ export default function AboutPage() {
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             className="text-center mb-16"
           >
             <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#8B0000] mb-4 px-4 py-2 rounded-full bg-[#FFE5E5]/50">
@@ -609,7 +668,7 @@ export default function AboutPage() {
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: false, amount: 0.1 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {facilities.map((facility) => {
@@ -654,13 +713,14 @@ export default function AboutPage() {
         </div>
       </section>
 
+
       {/* School Leadership Section */}
       <section className="py-6 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: false }}
             className="text-center mb-16"
           >
             <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#8B0000] mb-4 px-4 py-2 rounded-full bg-[#FFE5E5]/50">
@@ -677,99 +737,156 @@ export default function AboutPage() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Improved Grid Layout - All cards same height */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false, amount: 0.1 }}
+            className="flex flex-wrap justify-center gap-8"
+          >
             {schoolLeadership.map((leader, index) => (
               <motion.div
                 key={leader.name}
-                initial={{ opacity: 0, y: 60 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.2 }}
-                className="group"
+                variants={fadeInUp}
+                custom={index}
+                className="group h-full w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]"
               >
-                <Card className="h-full border-0 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                  <CardContent className="p-8 text-center">
-                    <div className="relative mx-auto mb-6 w-32 h-32">
-                      <div className="absolute inset-0 bg-linear-to-br from-[#8B0000] to-[#000000] rounded-full opacity-10" />
-                      <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-lg">
-                        <div className="w-full h-full bg-linear-to-br from-[#8B0000]/20 to-[#000000]/20 flex items-center justify-center">
-                          <GraduationCap className="w-16 h-16 text-[#8B0000]/40" />
-                        </div>
-                      </div>
+                <Card className="h-[460px] border-0 shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col">
+                  <CardContent className="p-8 text-center flex flex-col flex-grow">
+
+                    {/* Image/Icon Container */}
+                    <div className={`relative mx-auto mb-6 ${leaderImageSize}`}>
+                      {leader.image ? (
+                        <>
+                          <div className="absolute inset-0 bg-linear-to-br from-[#8B0000] to-[#000000] rounded-full opacity-10" />
+                          <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-white shadow-lg">
+                            <LeaderAvatar name={leader.name} image={leader.image} />
+                          </div>
+                        </>
+                      ) : (
+                        <>
+                          <div className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/10 to-[#000000]/10 rounded-full" />
+                          <div className="relative w-full h-full rounded-full flex items-center justify-center">
+                            <div className="w-26 h-26 rounded-full bg-linear-to-br from-[#8B0000] to-[#6A0000] flex items-center justify-center shadow-lg">
+                              <Quote className="w-14 h-14 text-white" />
+                            </div>
+                          </div>
+                          {/* Decorative elements */}
+                          <div className="absolute -top-2 -right-2 w-8 h-8 bg-[#FFE5E5] rounded-full" />
+                          <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-[#FFE5E5] rounded-full" />
+                        </>
+                      )}
                     </div>
 
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{leader.name}</h3>
-                    <div className="inline-flex items-center gap-2 text-sm font-semibold text-[#8B0000] bg-[#FFE5E5] px-3 py-1 rounded-full mb-4">
-                      {leader.role}
+                    {/* Leader Info - Flex column with consistent spacing */}
+                    <div className="flex-grow flex flex-col">
+                      <div className="mb-3">
+                        <h3 className="text-xl font-bold text-gray-900">{leader.name}</h3>
+                      </div>
+
+                      <div className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-[#8B0000] bg-[#FFE5E5] px-4 py-2 rounded-full mb-4 mx-auto">
+                        {leader.role}
+                      </div>
+
+                      <div className="flex-grow flex items-center">
+                        <p className="text-gray-600 leading-relaxed italic text-base mx-auto">
+                          {leader.description}
+                        </p>
+                      </div>
+
+
                     </div>
-                    <p className="text-gray-600 leading-relaxed">{leader.description}</p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
+          </motion.div>
+
+
+        </div>
+      </section>
+
+{/* CTA Section */}
+<section className="relative py-20 overflow-hidden">
+  <div className="absolute inset-0 bg-linear-to-br from-[#8B0000]/5 via-transparent to-[#000000]/5" />
+
+  <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: false }}
+      className="bg-linear-to-br from-white to-[#FFF5F5] rounded-3xl shadow-2xl overflow-hidden border border-[#8B0000]/10"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
+        <div className="p-12 lg:p-16">
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
+            <span className={`bg-linear-to-r ${maroonGradient} bg-clip-text text-transparent`}>
+              Ready to Join Our Community?
+            </span>
+          </h2>
+          <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+            Discover how Emmanuel Senior School can help your child achieve academic excellence, personal growth, and spiritual development.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button
+              asChild
+              className={`${maroonGradient} text-white px-8 py-6 text-lg hover:shadow-xl transition-all duration-300`}
+            >
+              <Link href="/admissions#application-form">
+                <GraduationCap className="w-5 h-5 mr-2" />
+                Apply for Admission
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Link>
+            </Button>
+            <Button
+              asChild
+              variant="outline"
+              className="px-8 py-6 text-lg border-2 border-[#8B0000] text-[#8B0000] hover:bg-[#8B0000]/10"
+            >
+              <Link href="/contact">
+                <Phone className="w-5 h-5 mr-2" />
+                Schedule a Visit
+              </Link>
+            </Button>
           </div>
         </div>
-      </section>
 
-      {/* CTA Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-linear-to-br from-[#8B0000]/5 via-transparent to-[#000000]/5" />
+        {/* Google Maps Embed with your preferred design */}
+        <div className="relative min-h-[300px] lg:min-h-0">
+          <div className="absolute inset-0">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.199749241805!2d37.1596715757216!3d-0.8259480999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1828a50c661c54f1%3A0xeb3eb9cbb710f5a0!2sBeatitudes%20Girls%20Secondary%20School!5e0!3m2!1sen!2ske!4v1736207200000!5m2!1sen!2ske"
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Emmanuel Senior School Location"
+              className="absolute inset-0"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
+          </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="bg-linear-to-br from-white to-[#FFF5F5] rounded-3xl shadow-2xl overflow-hidden border border-[#8B0000]/10"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-              <div className="p-12 lg:p-16">
-                <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-                  <span className={`bg-linear-to-r ${maroonGradient} bg-clip-text text-transparent`}>
-                    Ready to Join Our Community?
-                  </span>
-                </h2>
-                <p className="text-lg text-gray-700 mb-8 leading-relaxed">
-                  Discover how Emmanuel Senior School can help your child achieve academic excellence, personal growth, and spiritual development.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button
-                    asChild
-                    className={`${maroonGradient} text-white px-8 py-6 text-lg hover:shadow-xl transition-all duration-300`}
-                  >
-                    <Link href="/admissions#application-form">
-                      <GraduationCap className="w-5 h-5 mr-2" />
-                      Apply for Admission
-                      <ArrowRight className="w-5 h-5 ml-2" />
-                    </Link>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="px-8 py-6 text-lg border-2 border-[#8B0000] text-[#8B0000] hover:bg-[#8B0000]/10"
-                  >
-                    <Link href="/contact">
-                      <Phone className="w-5 h-5 mr-2" />
-                      Schedule a Visit
-                    </Link>
-                  </Button>
-                </div>
-              </div>
-              <div className="relative min-h-[300px] lg:min-h-0 bg-linear-to-br from-[#8B0000]/10 to-[#000000]/10">
-                <div className="absolute inset-0 flex items-center justify-center p-8">
-                  <div className="text-center">
-                    <MapPin className="w-16 h-16 text-[#8B0000]/30 mx-auto mb-4" />
-                    <div className="space-y-2">
-                      <p className="text-lg font-semibold text-gray-900">Maragua, Kenya</p>
-                      <p className="text-gray-600">Visit our school today</p>
-                    </div>
-                  </div>
-                </div>
+          {/* Map Overlay Info */}
+          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-lg p-3 shadow-lg w-[260px] max-w-[210px]">
+
+            <div className="flex items-start gap-2">
+              <MapPin className="w-4 h-4 text-[#8B0000] flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-sm font-semibold text-gray-900">Our Location</p>
+                <p className="text-xs text-gray-600">Emmanuel Senior School</p>
+                <p className="text-xs text-gray-600 italic">(formerly Beatitude Girls)</p>
+
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </section>
+      </div>
+    </motion.div>
+  </div>
+</section>
 
 
     </main>

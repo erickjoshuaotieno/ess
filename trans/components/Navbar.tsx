@@ -16,6 +16,7 @@ import {
   School,
   Sparkles,
   UserCircle,
+  ClipboardPenLine
 } from "lucide-react";
 
 const MotionLink = motion(Link);
@@ -403,7 +404,7 @@ const Navbar = () => {
                     />
 
                     <div className={`relative w-14 h-14 bg-linear-to-br ${maroonGradient} rounded-2xl flex items-center justify-center shadow-2xl`}>
-                      <Sparkles className="w-7 h-7 text-white" />
+                      <GraduationCap className="w-9 h-9 text-white" />
 
                       {[0, 1, 2].map((i) => (
                         <motion.div
@@ -435,17 +436,18 @@ const Navbar = () => {
                       animate={isReady ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
                       transition={{ delay: 1.8, duration: 1, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <span className={`bg-linear-to-r ${maroonGradient} bg-clip-text text-transparent`}>
+                      <span className={`bg-linear-to-r ${maroonGradient} bg-clip-text text-transparent drop-shadow-[0_1px_1px_rgba(255,255,255,0.3)]`}>
                         EMMANUEL
                       </span>
                     </motion.div>
-                    <div className="text-xs font-semibold text-gray-600 tracking-widest uppercase">
+                    <div className="text-xs font-bold text-[#8B0000] tracking-widest uppercase leading-none bg-gradient-to-r from-transparent via-[#FFE5E5]/20 to-transparent px-0.5 rounded">
                       SENIOR SCHOOL
                     </div>
-                    <div className="text-[10px] text-gray-500 italic mt-0.5">
-                      Learn to love, love to learn
+                    <div className="text-[10px] text-gray-700 italic mt-0.5 tracking-tight font-medium">
+                      <span className="text-[#8B0000]/80">Learn</span> to love, love to <span className="text-[#8B0000]/80">learn</span>
                     </div>
                   </div>
+
                 </Link>
               </motion.div>
 
@@ -577,7 +579,7 @@ const Navbar = () => {
                         variants={starVariants}
                         animate="animate"
                       >
-                        <GraduationCap className="w-5 h-5" fill="currentColor" />
+                        <ClipboardPenLine className="w-5 h-5"  />
                       </motion.span>
                       <span>Apply Now</span>
                     </span>
