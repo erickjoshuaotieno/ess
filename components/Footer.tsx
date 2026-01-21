@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { motion, useAnimation, useInView } from 'framer-motion';
+import { motion, useAnimation, useInView, AnimatePresence } from 'framer-motion';
 import {
   School,
   MapPin,
@@ -16,7 +16,8 @@ import {
   BookOpen,
   GraduationCap,
   Users,
-  Sparkles
+  Sparkles,
+  X
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -26,6 +27,10 @@ const Footer = () => {
   const isInView = useInView(footerRef, { amount: 0.1 });
   const controls = useAnimation();
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Popup state and countdown
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [countdown, setCountdown] = useState(10);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,6 +51,24 @@ const Footer = () => {
       controls.start('hidden');
     }
   }, [isInView, controls]);
+
+  // Countdown timer effect
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isPopupVisible && countdown > 0) {
+      timer = setInterval(() => {
+        setCountdown((prevCountdown) => {
+          if (prevCountdown <= 1) {
+            clearInterval(timer);
+            setIsPopupVisible(false);
+            return 0;
+          }
+          return prevCountdown - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [isPopupVisible, countdown]);
 
   const footerLinks = {
     academics: [
@@ -511,7 +534,14 @@ const Footer = () => {
               animate={controls}
               transition={{ duration: 0.5, delay: 1.7 }}
             >
-              <p className="text-gray-400 text-sm">
+              {/* Updated copyright with click handler */}
+              <p
+                className="text-gray-400 text-sm cursor-pointer hover:text-[#FF9999] transition-colors"
+                onClick={() => {
+                  setCountdown(10);
+                  setIsPopupVisible(true);
+                }}
+              >
                 &copy; {currentYear} Emmanuel Senior School. All rights reserved.
               </p>
               <motion.p
@@ -626,6 +656,74 @@ const Footer = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
         </motion.svg>
       </motion.button>
+
+      {/* Popup Modal */}
+      <AnimatePresence>
+        {isPopupVisible && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setIsPopupVisible(false)}
+          >
+            {/* Transparent premium burgundy gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-[#8B0000]/20 via-[#6A0000]/15 to-[#000000]/10 backdrop-blur-sm" />
+
+            {/* Modal Card */}
+            <motion.div
+              className="relative w-full max-w-sm"
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Card with burgundy/black theme */}
+              <div className="relative bg-gradient-to-br from-[#1a0a0a] via-[#2a0a0a] to-[#000000] rounded-2xl p-8 shadow-2xl overflow-hidden border border-[#8B0000]/30">
+                {/* Background decorative elements */}
+                <div className="absolute inset-0 opacity-10">
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#8B0000] rounded-full blur-3xl" />
+                  <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#6A0000] rounded-full blur-3xl" />
+                </div>
+
+                {/* Countdown badge */}
+                <motion.div
+                  className="absolute top-4 right-4 w-8 h-8 rounded-full bg-gradient-to-br from-[#8B0000] to-[#6A0000] flex items-center justify-center border border-[#FF9999]/30 shadow-lg"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 1, repeat: Infinity }}
+                >
+                  <span className="text-white font-bold text-xs">{countdown}</span>
+                </motion.div>
+
+                {/* Close button */}
+                <button
+                  onClick={() => setIsPopupVisible(false)}
+                  className="absolute top-4 left-4 text-gray-500 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10"
+                  aria-label="Close popup"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+
+                {/* Content */}
+                <div className="relative text-center space-y-4">
+           {/* Title */}
+                  <h3 className="text-xl font-bold bg-gradient-to-r from-[#FF9999] via-[#FF7777] to-[#FF9999] bg-clip-text text-transparent">
+                    Designed & Implemented by
+                  </h3>
+
+                  {/* Developer info */}
+                  <div className="space-y-2">
+                    <p className="text-white text-2xl font-bold tracking-tight">Erick Joshua</p>
+                    <p className="text-[#FF9999] font-mono text-sm mt-2">0707511789</p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </footer>
   );
 };
